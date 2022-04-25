@@ -1,7 +1,7 @@
-import '../../../../model/attendance.dart';
+import '../domain/entity/attendance_entity.dart';
 
-List<Attendance> attendances = [
-  Attendance(
+List<AttendanceEntity> attendances = [
+  AttendanceEntity(
     cid: 14,
     createdTime: DateTime.now(),
     description: 'Atendimento realizado devido ao....',
@@ -10,8 +10,8 @@ List<Attendance> attendances = [
     number: 1,
     id: 1,
   ),
-  Attendance(
-    cid: 14,
+  AttendanceEntity(
+    cid: 16,
     createdTime: DateTime.now(),
     description: 'Atendimento realizado devido ao....',
     title: 'Atendimento remoto',
@@ -19,8 +19,8 @@ List<Attendance> attendances = [
     number: 1,
     id: 2,
   ),
-  Attendance(
-    cid: 14,
+  AttendanceEntity(
+    cid: 11,
     createdTime: DateTime.now(),
     description: 'Atendimento realizado devido ao....',
     title: 'Atendimento remoto',
@@ -28,7 +28,7 @@ List<Attendance> attendances = [
     number: 1,
     id: 3,
   ),
-  Attendance(
+  AttendanceEntity(
     cid: 14,
     createdTime: DateTime.now(),
     description: 'Atendimento realizado devido ao....',
@@ -37,8 +37,8 @@ List<Attendance> attendances = [
     number: 1,
     id: 4,
   ),
-  Attendance(
-    cid: 14,
+  AttendanceEntity(
+    cid: 34,
     createdTime: DateTime.now(),
     description: 'Atendimento realizado devido ao....',
     title: 'Atendimento remoto',
@@ -46,7 +46,7 @@ List<Attendance> attendances = [
     number: 1,
     id: 324,
   ),
-  Attendance(
+  AttendanceEntity(
     cid: 14,
     createdTime: DateTime.now(),
     description: 'Atendimento realizado devido ao....',
@@ -55,8 +55,8 @@ List<Attendance> attendances = [
     number: 1,
     id: 543,
   ),
-  Attendance(
-    cid: 14,
+  AttendanceEntity(
+    cid: 24,
     createdTime: DateTime.now(),
     description: 'Atendimento realizado devido ao....',
     title: 'Atendimento remoto',
@@ -64,8 +64,8 @@ List<Attendance> attendances = [
     number: 1,
     id: 1243,
   ),
-  Attendance(
-    cid: 14,
+  AttendanceEntity(
+    cid: 15,
     createdTime: DateTime.now(),
     description: 'Atendimento realizado devido ao....',
     title: 'Atendimento remoto',

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1054766042536",
+    "project_id": "offlinequeue",
+    "storage_bucket": "offlinequeue.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054766042536:android:107e653a708698e0b6e19d",
+        "android_client_info": {
+          "package_name": "com.example.offline_first"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1054766042536-d7fpufq38n7of3pfhek7to0bemo1p6r5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9LqyXpxfhri-lZn3hH4A_xGsudDhJFNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1054766042536-d7fpufq38n7of3pfhek7to0bemo1p6r5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1054766042536-q1gmv3ehq028eond3e14hle13cqo1579.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.offlineFirst"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

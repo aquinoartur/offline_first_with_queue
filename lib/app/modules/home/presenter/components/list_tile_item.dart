@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:offline_first/app/modules/home/presenter/styles/text_style.dart';
-import 'package:offline_first/model/attendance.dart';
+import 'package:flutter/material.dart';
+
+import '../../domain/entity/attendance_entity.dart';
+import 'styles/text_style.dart';
 
 class ListTileItem extends StatelessWidget {
   const ListTileItem({
@@ -8,7 +10,7 @@ class ListTileItem extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final Attendance attendance;
+  final AttendanceEntity attendance;
   @override
   Widget build(BuildContext context) {
     final row = SafeArea(
@@ -18,20 +20,16 @@ class ListTileItem extends StatelessWidget {
         left: 16,
         top: 8,
         bottom: 8,
-        right: 8,
       ),
       child: Row(
         children: <Widget>[
           ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: Image.network(
-              attendance.isUrgency
-                  ? 'https://cdn-icons-png.flaticon.com/512/5846/5846173.png'
-                  : 'https://cdn-icons.flaticon.com/png/512/3802/premium/3802177.png?token=exp=1650136518~hmac=2ce97f2fd6feb1dc3f5cb0e729a28de1',
-              width: 76,
-              height: 76,
-            ),
-          ),
+              borderRadius: BorderRadius.circular(4),
+              child: CircleAvatar(
+                backgroundColor: attendance.isUrgency
+                    ? Colors.redAccent
+                    : Colors.greenAccent,
+              )),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),

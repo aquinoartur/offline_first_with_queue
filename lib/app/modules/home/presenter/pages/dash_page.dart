@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:offline_first/app/modules/home/presenter/add_page.dart';
+import 'package:offline_first/app/modules/home/presenter/components/loading.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/home_page.dart';
 
 class DashPage extends StatelessWidget {
@@ -31,10 +34,11 @@ class DashPage extends StatelessWidget {
             returnValue = CupertinoTabView(builder: (ctx) => const HomePage());
             break;
           case 1:
-            returnValue = CupertinoTabView(builder: (ctx) => const HomePage());
+            returnValue = CupertinoTabView(builder: (ctx) => const AddPage());
             break;
           case 2:
-            returnValue = CupertinoTabView(builder: (ctx) => const HomePage());
+            returnValue = CupertinoTabView(
+                builder: (ctx) => const Scaffold(body: Loading()));
             break;
         }
         return returnValue;

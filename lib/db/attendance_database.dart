@@ -1,8 +1,9 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../model/attendance.dart';
-import '../model/attendance_db_fields.dart';
+import '../app/modules/home/domain/entity/attendance_entity.dart';
+import '../app/modules/home/external/attendance_mapper.dart';
+import '../app/modules/home/infra/models/attendance_db_model.dart';
 
 class AttendanceDatabase {
   static final AttendanceDatabase instance = AttendanceDatabase._init();
@@ -33,18 +34,18 @@ class AttendanceDatabase {
 
     await db.execute('''
 CREATE TABLE $tableAttendances ( 
-  ${AttendanceDbFields.id} $idType, 
-  ${AttendanceDbFields.isUrgency} $boolType,
-  ${AttendanceDbFields.number} $integerType,
-  ${AttendanceDbFields.title} $textType,
-  ${AttendanceDbFields.description} $textType,
-  ${AttendanceDbFields.time} $textType,
-  ${AttendanceDbFields.cid} $integerType
+  ${AttendanceDbModel.id} $idType, 
+  ${AttendanceDbModel.isUrgency} $boolType,
+  ${AttendanceDbModel.number} $integerType,
+  ${AttendanceDbModel.title} $textType,
+  ${AttendanceDbModel.description} $textType,
+  ${AttendanceDbModel.time} $textType,
+  ${AttendanceDbModel.cid} $integerType
   )
 ''');
   }
 
-  Future<Attendance> create(Attendance note) async {
+  Future<AttendanceEntity> create(AttendanceEntity note) async {
     final db = await instance.database;
 
     // final json = note.toJson();
@@ -55,46 +56,47 @@ CREATE TABLE $tableAttendances (
     // final id = await db
     //     .rawInsert('INSERT INTO table_name ($columns) VALUES ($values)');
 
-    final id = await db.insert(tableAttendances, note.toJson());
+    final id =
+        await db.insert(tableAttendances, AttendanceMapper().toJson(note));
     return note.copyWith(id: id);
   }
 
-  Future<Attendance> read(int id) async {
+  Future<AttendanceEntity> read(int id) async {
     final db = await instance.database;
 
     final maps = await db.query(
       tableAttendances,
-      columns: AttendanceDbFields.values,
-      where: '${AttendanceDbFields.id} = ?',
+      columns: AttendanceDbModel.values,
+      where: '${AttendanceDbModel.id} = ?',
       whereArgs: [id],
     );
 
     if (maps.isNotEmpty) {
-      return Attendance.fromJson(maps.first);
+      return AttendanceMapper.fromJson(maps.first);
     } else {
       throw Exception('ID $id not found');
     }
   }
 
-  Future<List<Attendance>> readAll() async {
+  Future<List<AttendanceEntity>> readAll() async {
     final db = await instance.database;
 
-    const orderBy = '${AttendanceDbFields.time} ASC';
+    const orderBy = '${AttendanceDbModel.time} ASC';
     // final result =
     //     await db.rawQuery('SELECT * FROM $tableNotes ORDER BY $orderBy');
 
     final result = await db.query(tableAttendances, orderBy: orderBy);
 
-    return result.map((json) => Attendance.fromJson(json)).toList();
+    return result.map((json) => AttendanceMapper.fromJson(json)).toList();
   }
 
-  Future<int> update(Attendance note) async {
+  Future<int> update(AttendanceEntity note) async {
     final db = await instance.database;
 
     return db.update(
       tableAttendances,
-      note.toJson(),
-      where: '${AttendanceDbFields.id} = ?',
+      AttendanceMapper().toJson(note),
+      where: '${AttendanceDbModel.id} = ?',
       whereArgs: [note.id],
     );
   }
@@ -104,7 +106,7 @@ CREATE TABLE $tableAttendances (
 
     return await db.delete(
       tableAttendances,
-      where: '${AttendanceDbFields.id} = ?',
+      where: '${AttendanceDbModel.id} = ?',
       whereArgs: [id],
     );
   }

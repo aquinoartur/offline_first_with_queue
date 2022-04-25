@@ -1,6 +1,6 @@
 const String tableAttendances = 'attendance';
 
-class AttendanceDbFields {
+class AttendanceDbModel {
   static final List<String> values = [
     id,
     isUrgency,
