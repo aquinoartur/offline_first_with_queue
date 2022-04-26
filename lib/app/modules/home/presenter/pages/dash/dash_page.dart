@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:offline_first/app/modules/home/presenter/add_page.dart';
+import 'package:offline_first/app/modules/home/presenter/pages/add/add_page.dart';
 import 'package:offline_first/app/modules/home/presenter/components/loading.dart';
-import 'package:offline_first/app/modules/home/presenter/pages/home_page.dart';
+import 'package:offline_first/app/modules/home/presenter/pages/home/home_page.dart';
 
 class DashPage extends StatelessWidget {
   const DashPage({Key? key}) : super(key: key);

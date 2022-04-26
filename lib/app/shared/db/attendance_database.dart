@@ -1,9 +1,10 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../app/modules/home/domain/entity/attendance_entity.dart';
-import '../app/modules/home/external/attendance_mapper.dart';
-import '../app/modules/home/infra/models/attendance_db_model.dart';
+import '../../modules/home/domain/entity/attendance_entity.dart';
+import '../../modules/home/external/mappers/attendance_mapper.dart';
+import '../../modules/home/infra/models/attendance_db_model.dart';
+
 
 class AttendanceDatabase {
   static final AttendanceDatabase instance = AttendanceDatabase._init();
@@ -45,7 +46,7 @@ CREATE TABLE $tableAttendances (
 ''');
   }
 
-  Future<AttendanceEntity> create(AttendanceEntity note) async {
+  Future<AttendanceEntity> create(AttendanceEntity attendance) async {
     final db = await instance.database;
 
     // final json = note.toJson();
@@ -56,9 +57,20 @@ CREATE TABLE $tableAttendances (
     // final id = await db
     //     .rawInsert('INSERT INTO table_name ($columns) VALUES ($values)');
 
-    final id =
-        await db.insert(tableAttendances, AttendanceMapper().toJson(note));
-    return note.copyWith(id: id);
+    final id = await db.insert(
+      tableAttendances,
+      AttendanceMapper().toMap(attendance),
+    );
+    
+    return AttendanceEntity(
+      id: id,
+      cid: attendance.cid,
+      description: attendance.description,
+      number: attendance.number,
+      createdTime: attendance.createdTime,
+      isUrgency: attendance.isUrgency,
+      title: attendance.title,
+    );
   }
 
   Future<AttendanceEntity> read(int id) async {
@@ -72,7 +84,7 @@ CREATE TABLE $tableAttendances (
     );
 
     if (maps.isNotEmpty) {
-      return AttendanceMapper.fromJson(maps.first);
+      return AttendanceMapper().fromMap(maps.first);
     } else {
       throw Exception('ID $id not found');
     }
@@ -87,7 +99,7 @@ CREATE TABLE $tableAttendances (
 
     final result = await db.query(tableAttendances, orderBy: orderBy);
 
-    return result.map((json) => AttendanceMapper.fromJson(json)).toList();
+    return result.map((json) => AttendanceMapper().fromMap(json)).toList();
   }
 
   Future<int> update(AttendanceEntity note) async {
@@ -95,7 +107,7 @@ CREATE TABLE $tableAttendances (
 
     return db.update(
       tableAttendances,
-      AttendanceMapper().toJson(note),
+      AttendanceMapper().toMap(note),
       where: '${AttendanceDbModel.id} = ?',
       whereArgs: [note.id],
     );

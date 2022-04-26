@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:offline_first/app/modules/home/presenter/components/list_tile_item.dart';
-import '../components/styles/text_style.dart';
-import '../utils.dart';
+import '../../components/styles/text_style.dart';
+import '../../utils.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

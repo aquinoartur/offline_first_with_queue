@@ -16,23 +16,4 @@ class AttendanceEntity {
     required this.createdTime,
     required this.cid,
   });
-
-  AttendanceEntity copyWith({
-    int? id,
-    bool? isUrgency,
-    int? number,
-    String? title,
-    String? description,
-    DateTime? createdTime,
-    int? cid,
-  }) =>
-      AttendanceEntity(
-        id: id ?? this.id,
-        isUrgency: isUrgency ?? this.isUrgency,
-        number: number ?? this.number,
-        title: title ?? this.title,
-        description: description ?? this.description,
-        createdTime: createdTime ?? this.createdTime,
-        cid: cid ?? this.cid,
-      );
 }
