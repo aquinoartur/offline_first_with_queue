@@ -12,8 +12,8 @@ import 'external/datasources/attendances_local_datasource.dart';
 class HomeModule extends Module {
   @override
   List<Bind<Object>> get binds => [
-        Bind((i) => HomeBloc(getAttendancesUsecase: i())),
         Bind((i) => AddBloc(addAttendanceUsecase: i())),
+        Bind((i) => HomeBloc(getAttendancesUsecase: i(), addBloc: i())),
         Bind((i) => GetAttendancesUsecaseImpl(i())),
         Bind((i) => AddAttendanceUsecaseImpl(i())),
         Bind((i) => AttendancesRepositoryImpl(i(), i(), i())),

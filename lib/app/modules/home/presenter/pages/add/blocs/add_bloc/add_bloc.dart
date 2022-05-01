@@ -3,8 +3,6 @@ import 'package:offline_first/app/modules/home/domain/usecases/add_attendance_us
 import 'package:offline_first/app/modules/home/presenter/pages/add/blocs/add_bloc/events/add_event.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/add/blocs/add_bloc/states/add_state.dart';
 
-import '../../../../../../../shared/db/attendance_database.dart';
-
 class AddBloc extends Bloc<AddEvent, AddState> {
   final AddAttendanceUsecase addAttendanceUsecase;
 

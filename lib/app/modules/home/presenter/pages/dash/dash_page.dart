@@ -6,13 +6,10 @@ import 'package:offline_first/app/modules/home/presenter/pages/add/blocs/add_blo
 import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/home_bloc/home_bloc.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/home/home_page.dart';
 
-import '../home/blocs/home_bloc/events/home_event.dart';
-
 class DashPage extends StatelessWidget {
   final HomeBloc homeBloc;
   final AddBloc addBloc;
-  const DashPage({Key? key, required this.homeBloc, required this.addBloc})
-      : super(key: key);
+  const DashPage({Key? key, required this.homeBloc, required this.addBloc}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +35,6 @@ class DashPage extends StatelessWidget {
         late final CupertinoTabView returnValue;
         switch (index) {
           case 0:
-            homeBloc.add(GetAttendanceListEvent());
             returnValue = CupertinoTabView(
               builder: (ctx) {
                 return HomePage(
@@ -55,8 +51,7 @@ class DashPage extends StatelessWidget {
             );
             break;
           case 2:
-            returnValue = CupertinoTabView(
-                builder: (ctx) => const Scaffold(body: Loading()));
+            returnValue = CupertinoTabView(builder: (ctx) => const Scaffold(body: Loading()));
             break;
         }
         return returnValue;

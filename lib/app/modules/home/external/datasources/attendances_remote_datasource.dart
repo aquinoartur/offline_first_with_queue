@@ -13,9 +13,9 @@ class AttendancesRemoteDatasourceImpl implements AttendancesRemoteDatasource {
   Future<List<AttendanceEntity>> getAttendances() async {
     var path = 'attendances';
     try {
-      final result = await firebase.collection(path).get();
+      final result = await firebase.collection(path).orderBy('time', descending: false).limitToLast(10).get();
       var mapList = result.docs.map((item) => item.data()).toList();
-      return AttendanceMapper().fromMapList(mapList);
+      return AttendanceMapper().fromMapList(mapList).reversed.toList();
     } catch (_) {
       rethrow;
     }

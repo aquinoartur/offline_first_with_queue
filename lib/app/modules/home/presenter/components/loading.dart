@@ -10,9 +10,13 @@ class Loading extends StatefulWidget {
 class _LoadingState extends State<Loading> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: CupertinoActivityIndicator(
-        color: Color.fromARGB(255, 70, 69, 69),
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.8,
+      width: MediaQuery.of(context).size.width,
+      child: const Center(
+        child: CupertinoActivityIndicator(
+          color: Color.fromARGB(255, 70, 69, 69),
+        ),
       ),
     );
   }
