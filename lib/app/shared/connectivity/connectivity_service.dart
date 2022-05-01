@@ -19,19 +19,16 @@ class ConnectivityService {
 
   late final StreamSubscription subscription;
   ConnectivityService() {
-    initStatus().then((_) {
-      subscription = Connectivity()
-          .onConnectivityChanged
-          .listen((ConnectivityResult result) {
-        if (result == ConnectivityResult.mobile ||
-            result == ConnectivityResult.wifi) {
-          status = ConnectivityStatus.online;
-        } else {
-          log('Você não tem conexão');
-          status = ConnectivityStatus.offline;
-        }
-        log('Status da conexão: $status');
-      });
+    subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.mobile ||
+          result == ConnectivityResult.wifi) {
+        status = ConnectivityStatus.online;
+      } else {
+        status = ConnectivityStatus.offline;
+      }
+      log('Status da conexão: $status');
     });
   }
 

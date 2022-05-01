@@ -1,97 +1,152 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offline_first/app/modules/home/presenter/components/list_tile_item.dart';
+import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/home_bloc/events/home_event.dart';
+import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/home_bloc/states/home_state.dart';
+import '../../components/loading.dart';
 import '../../components/styles/text_style.dart';
-import '../../utils.dart';
+import 'blocs/home_bloc/home_bloc.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final HomeBloc homeBloc;
+  const HomePage({Key? key, required this.homeBloc}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  late final HomeBloc _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = widget.homeBloc;
+    
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      backgroundColor: CupertinoColors.white,
-      child: CustomScrollView(
-        slivers: <Widget>[
-          CupertinoSliverNavigationBar(
-            largeTitle: Text(
-              'Atendimentos',
-              style: defaultStyle.copyWith(fontSize: 26),
-            ),
-          ),
-          SliverSafeArea(
-            top: false,
-            sliver: SliverToBoxAdapter(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Hoje',
-                          style: defaultStyle.copyWith(fontSize: 20)),
-                    ),
-                    const SizedBox(height: 24),
-                    SizedBox(
-                      height: 80,
-                      width: double.infinity,
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: attendances.length,
-                        separatorBuilder: (_, __) => const SizedBox(width: 20),
-                        itemBuilder: (context, index) {
-                          var attendance = attendances[index];
-                          return SizedBox(
-                            height: 56,
-                            child: Column(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: attendance.isUrgency
-                                      ? const Color(0XFFffccbc)
-                                      : Colors.greenAccent,
-                                ),
-                                const SizedBox(height: 12),
-                                Text(
-                                  'CID: ${attendance.cid}',
-                                  style: defaultStyle,
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 32),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Última atualização',
-                          style: defaultStyle.copyWith(fontSize: 20)),
-                    ),
-                    const SizedBox(height: 24),
-                    ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: attendances.length,
-                      padding: EdgeInsets.zero,
-                      separatorBuilder: (_, __) => const SizedBox(height: 4),
-                      itemBuilder: (context, index) {
-                        var attendance = attendances[index];
-                        return ListTileItem(attendance: attendance);
-                      },
-                    ),
-                    const SizedBox(height: 12),
-                  ],
-                ),
+    return Material(
+      child: CupertinoPageScaffold(
+        backgroundColor: CupertinoColors.white,
+        child: CustomScrollView(
+          slivers: <Widget>[
+            CupertinoSliverNavigationBar(
+              largeTitle: Text(
+                'Atendimentos',
+                style: defaultStyle.copyWith(fontSize: 26),
               ),
             ),
-          ) // END OF NEW CONTENT
-        ],
+            SliverSafeArea(
+              top: false,
+              sliver: SliverToBoxAdapter(
+                child: BlocBuilder<HomeBloc, HomeState>(
+                  bloc: _bloc,
+                  builder: (context, state) {
+                    if (state is LoadingHomeState ||
+                        state is InitialHomeState) {
+                      return const Loading();
+                    }
+
+                    if (state is ErrorHomeState) {
+                      return Center(
+                        child: Text('Error: ${state.error}'),
+                      );
+                    }
+
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Hoje',
+                                  style: defaultStyle.copyWith(fontSize: 20),
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+                              SizedBox(
+                                height: 80,
+                                width: double.infinity,
+                                child: ListView.separated(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: (state as LoadedHomeState)
+                                      .attendances
+                                      .length,
+                                  separatorBuilder: (_, __) =>
+                                      const SizedBox(width: 20),
+                                  itemBuilder: (context, index) {
+                                    var attendance = (state).attendances[index];
+                                    return SizedBox(
+                                      height: 56,
+                                      child: Column(
+                                        children: [
+                                          CircleAvatar(
+                                            child: Icon(
+                                              attendance.isUrgency
+                                                  ? Icons.local_hospital
+                                                  : Icons.healing_outlined,
+                                              color: Colors.white,
+                                            ),
+                                            backgroundColor: attendance
+                                                    .isUrgency
+                                                ? Colors.red.withOpacity(0.7)
+                                                : Colors.green.withOpacity(0.7),
+                                          ),
+                                          const SizedBox(height: 12),
+                                          Text(
+                                            'CID: ${attendance.cid}',
+                                            style: defaultStyle,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(height: 32),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Todos os atendimentos',
+                                  style: defaultStyle.copyWith(fontSize: 20),
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+                              ListView.separated(
+                                shrinkWrap: true,
+                                itemCount: (state).attendances.length,
+                                padding: EdgeInsets.zero,
+                                separatorBuilder: (_, __) =>
+                                    const SizedBox(height: 4),
+                                itemBuilder: (context, index) {
+                                  var attendance = (state).attendances[index];
+                                  return ListTileItem(attendance: attendance);
+                                },
+                              ),
+                              const SizedBox(height: 12),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ) // END OF NEW CONTENT
+          ],
+        ),
       ),
     );
+  }
+
+  Future<void> _onRefresh() async {
+    _bloc.add(GetAttendanceListEvent());
   }
 }

@@ -37,7 +37,6 @@ class AttendanceDatabase {
 CREATE TABLE $tableAttendances ( 
   ${AttendanceDbModel.id} $idType, 
   ${AttendanceDbModel.isUrgency} $boolType,
-  ${AttendanceDbModel.number} $integerType,
   ${AttendanceDbModel.title} $textType,
   ${AttendanceDbModel.description} $textType,
   ${AttendanceDbModel.time} $textType,
@@ -66,7 +65,6 @@ CREATE TABLE $tableAttendances (
       id: id,
       cid: attendance.cid,
       description: attendance.description,
-      number: attendance.number,
       createdTime: attendance.createdTime,
       isUrgency: attendance.isUrgency,
       title: attendance.title,

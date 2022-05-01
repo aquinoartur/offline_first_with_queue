@@ -7,11 +7,9 @@ import '../../../../../../../shared/db/attendance_database.dart';
 
 class AddBloc extends Bloc<AddEvent, AddState> {
   final AddAttendanceUsecase addAttendanceUsecase;
-  final AttendanceDatabase database;
 
   AddBloc({
     required this.addAttendanceUsecase,
-    required this.database,
   }) : super(InitialAddState()) {
     on<AddAttendanceEvent>(_addAttendance);
     on<AddAttendanceListEvent>(_addAttendanceList);

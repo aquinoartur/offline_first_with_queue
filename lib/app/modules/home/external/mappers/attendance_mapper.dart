@@ -11,7 +11,6 @@ class AttendanceMapper {
     return AttendanceEntity(
       id: map[AttendanceDbModel.id] as int?,
       isUrgency: map[AttendanceDbModel.isUrgency] == 1,
-      number: map[AttendanceDbModel.number] as int,
       title: map[AttendanceDbModel.title] as String,
       description: map[AttendanceDbModel.description] as String,
       createdTime: DateTime.parse(map[AttendanceDbModel.time] as String),
@@ -24,9 +23,9 @@ class AttendanceMapper {
       AttendanceDbModel.id: attendance.id,
       AttendanceDbModel.title: attendance.title,
       AttendanceDbModel.isUrgency: attendance.isUrgency ? 1 : 0,
-      AttendanceDbModel.number: attendance.number,
       AttendanceDbModel.description: attendance.description,
       AttendanceDbModel.time: attendance.createdTime.toIso8601String(),
+      AttendanceDbModel.cid: attendance.cid,
     };
   }
 }

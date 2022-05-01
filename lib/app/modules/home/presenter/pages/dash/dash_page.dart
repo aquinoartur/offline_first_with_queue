@@ -2,10 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/add/add_page.dart';
 import 'package:offline_first/app/modules/home/presenter/components/loading.dart';
+import 'package:offline_first/app/modules/home/presenter/pages/add/blocs/add_bloc/add_bloc.dart';
+import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/home_bloc/home_bloc.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/home/home_page.dart';
 
+import '../home/blocs/home_bloc/events/home_event.dart';
+
 class DashPage extends StatelessWidget {
-  const DashPage({Key? key}) : super(key: key);
+  final HomeBloc homeBloc;
+  final AddBloc addBloc;
+  const DashPage({Key? key, required this.homeBloc, required this.addBloc})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +38,21 @@ class DashPage extends StatelessWidget {
         late final CupertinoTabView returnValue;
         switch (index) {
           case 0:
-            returnValue = CupertinoTabView(builder: (ctx) => const HomePage());
+            homeBloc.add(GetAttendanceListEvent());
+            returnValue = CupertinoTabView(
+              builder: (ctx) {
+                return HomePage(
+                  homeBloc: homeBloc,
+                );
+              },
+            );
             break;
           case 1:
-            returnValue = CupertinoTabView(builder: (ctx) => const AddPage());
+            returnValue = CupertinoTabView(
+              builder: (ctx) => AddPage(
+                addBloc: addBloc,
+              ),
+            );
             break;
           case 2:
             returnValue = CupertinoTabView(

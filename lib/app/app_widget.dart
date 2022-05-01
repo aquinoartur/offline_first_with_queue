@@ -13,6 +13,8 @@ class AppWidget extends StatelessWidget {
       ),
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
+      localizationsDelegates: [
+      ],
     ); //added by extension
   }
 }

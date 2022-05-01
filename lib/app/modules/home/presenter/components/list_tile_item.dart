@@ -24,12 +24,17 @@ class ListTileItem extends StatelessWidget {
       child: Row(
         children: <Widget>[
           ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: CircleAvatar(
-                backgroundColor: attendance.isUrgency
-                    ? Colors.redAccent
-                    : Colors.greenAccent,
-              )),
+            borderRadius: BorderRadius.circular(4),
+            child: CircleAvatar(
+              child: Icon(
+                attendance.isUrgency
+                    ? Icons.local_hospital
+                    : Icons.healing_outlined,
+                color: Colors.white,
+              ),
+              backgroundColor: attendance.isUrgency ? Colors.red : Colors.green,
+            ),
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),

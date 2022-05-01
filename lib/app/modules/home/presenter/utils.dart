@@ -7,7 +7,6 @@ List<AttendanceEntity> attendances = [
     description: 'Atendimento realizado devido ao....',
     title: 'Atendimento remoto',
     isUrgency: false,
-    number: 1,
     id: 1,
   ),
   AttendanceEntity(
@@ -16,7 +15,6 @@ List<AttendanceEntity> attendances = [
     description: 'Atendimento realizado devido ao....',
     title: 'Atendimento remoto',
     isUrgency: true,
-    number: 1,
     id: 2,
   ),
   AttendanceEntity(
@@ -25,7 +23,6 @@ List<AttendanceEntity> attendances = [
     description: 'Atendimento realizado devido ao....',
     title: 'Atendimento remoto',
     isUrgency: true,
-    number: 1,
     id: 3,
   ),
   AttendanceEntity(
@@ -34,7 +31,6 @@ List<AttendanceEntity> attendances = [
     description: 'Atendimento realizado devido ao....',
     title: 'Atendimento remoto',
     isUrgency: false,
-    number: 1,
     id: 4,
   ),
   AttendanceEntity(
@@ -43,7 +39,6 @@ List<AttendanceEntity> attendances = [
     description: 'Atendimento realizado devido ao....',
     title: 'Atendimento remoto',
     isUrgency: true,
-    number: 1,
     id: 324,
   ),
   AttendanceEntity(
@@ -52,7 +47,6 @@ List<AttendanceEntity> attendances = [
     description: 'Atendimento realizado devido ao....',
     title: 'Atendimento remoto',
     isUrgency: false,
-    number: 1,
     id: 543,
   ),
   AttendanceEntity(
@@ -61,7 +55,6 @@ List<AttendanceEntity> attendances = [
     description: 'Atendimento realizado devido ao....',
     title: 'Atendimento remoto',
     isUrgency: true,
-    number: 1,
     id: 1243,
   ),
   AttendanceEntity(
@@ -70,7 +63,6 @@ List<AttendanceEntity> attendances = [
     description: 'Atendimento realizado devido ao....',
     title: 'Atendimento remoto',
     isUrgency: false,
-    number: 1,
     id: 12,
   ),
 ];
