@@ -34,7 +34,7 @@ class AttendanceDatabase {
     const integerType = 'INTEGER NOT NULL';
 
     await db.execute('''
-CREATE TABLE $tableAttendances ( 
+CREATE TABLE $kTableName ( 
   ${AttendanceDbModel.id} $idType, 
   ${AttendanceDbModel.isUrgency} $boolType,
   ${AttendanceDbModel.title} $textType,
@@ -48,16 +48,8 @@ CREATE TABLE $tableAttendances (
   Future<AttendanceEntity> create(AttendanceEntity attendance) async {
     final db = await instance.database;
 
-    // final json = note.toJson();
-    // final columns =
-    //     '${NoteFields.title}, ${NoteFields.description}, ${NoteFields.time}';
-    // final values =
-    //     '${json[NoteFields.title]}, ${json[NoteFields.description]}, ${json[NoteFields.time]}';
-    // final id = await db
-    //     .rawInsert('INSERT INTO table_name ($columns) VALUES ($values)');
-
     final id = await db.insert(
-      tableAttendances,
+      kTableName,
       AttendanceMapper().toMap(attendance),
     );
     
@@ -75,7 +67,7 @@ CREATE TABLE $tableAttendances (
     final db = await instance.database;
 
     final maps = await db.query(
-      tableAttendances,
+      kTableName,
       columns: AttendanceDbModel.values,
       where: '${AttendanceDbModel.id} = ?',
       whereArgs: [id],
@@ -95,7 +87,7 @@ CREATE TABLE $tableAttendances (
     // final result =
     //     await db.rawQuery('SELECT * FROM $tableNotes ORDER BY $orderBy');
 
-    final result = await db.query(tableAttendances, orderBy: orderBy);
+    final result = await db.query(kTableName, orderBy: orderBy);
 
     return result.map((json) => AttendanceMapper().fromMap(json)).toList();
   }
@@ -104,7 +96,7 @@ CREATE TABLE $tableAttendances (
     final db = await instance.database;
 
     return db.update(
-      tableAttendances,
+      kTableName,
       AttendanceMapper().toMap(note),
       where: '${AttendanceDbModel.id} = ?',
       whereArgs: [note.id],
@@ -115,7 +107,7 @@ CREATE TABLE $tableAttendances (
     final db = await instance.database;
 
     return await db.delete(
-      tableAttendances,
+      kTableName,
       where: '${AttendanceDbModel.id} = ?',
       whereArgs: [id],
     );

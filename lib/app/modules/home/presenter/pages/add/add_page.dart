@@ -76,12 +76,10 @@ class _AddPageState extends State<AddPage> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: CupertinoTextFormFieldRow(
-                                onChanged: (text) =>
-                                    _titleController.text = text,
+                                onChanged: (text) => _titleController.text = text,
                                 prefix: const Text('Título:'),
                                 validator: _validator,
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                               ),
                             ),
                             const SizedBox(height: 24),
@@ -91,12 +89,10 @@ class _AddPageState extends State<AddPage> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: CupertinoTextFormFieldRow(
-                                onChanged: (text) =>
-                                    _descriptionController.text = text,
+                                onChanged: (text) => _descriptionController.text = text,
                                 prefix: const Text('Descrição:'),
                                 validator: _validator,
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                               ),
                             ),
                             const SizedBox(height: 24),
@@ -110,8 +106,7 @@ class _AddPageState extends State<AddPage> {
                                 prefix: const Text('CID:'),
                                 keyboardType: TextInputType.number,
                                 validator: _validator,
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                               ),
                             ),
                             const SizedBox(height: 24),
@@ -120,10 +115,8 @@ class _AddPageState extends State<AddPage> {
                               builder: (context, _) {
                                 return CheckboxListTile(
                                   value: _isUrgency.value,
-                                  controlAffinity:
-                                      ListTileControlAffinity.leading,
-                                  onChanged: (v) =>
-                                      _isUrgency.value = v ?? false,
+                                  controlAffinity: ListTileControlAffinity.leading,
+                                  onChanged: (v) => _isUrgency.value = v ?? false,
                                   title: const Text('Urgência'),
                                 );
                               },
@@ -133,14 +126,12 @@ class _AddPageState extends State<AddPage> {
                               padding: EdgeInsets.zero,
                               child: const Text('Registrar'),
                               onPressed: () {
-                                if (_formKey.currentState?.validate() ??
-                                    false) {
+                                if (_formKey.currentState?.validate() ?? false) {
                                   _bloc.add(
                                     AddAttendanceEvent(
                                       attendance: AttendanceEntity(
                                         cid: int.parse(_cidController.text),
-                                        description:
-                                            _descriptionController.text,
+                                        description: _descriptionController.text,
                                         title: _titleController.text,
                                         createdTime: DateTime.now(),
                                         isUrgency: _isUrgency.value,

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:offline_first/app/modules/home/domain/entity/attendance_entity.dart';
 import 'package:offline_first/app/shared/db/attendance_database.dart';
 
@@ -10,7 +11,6 @@ class AttendancesLocalDatasourceImpl implements AttendancesLocalDatasource {
 
   @override
   Future<List<AttendanceEntity>> getAttendances() async {
-    var path = 'attendances';
     try {
       return [];
     } catch (_) {
@@ -20,9 +20,13 @@ class AttendancesLocalDatasourceImpl implements AttendancesLocalDatasource {
 
   @override
   Future<void> addAttendances(List<AttendanceEntity> attendances) async {
-    var path = 'attendances';
-    try {} catch (_) {
+    try {
+      for (var attendance in attendances) {
+        final entity = await database.create(attendance);
+        debugPrint(entity.toString());
+      }
+    } catch (_) {
       rethrow;
-    }
+    } 
   }
 }

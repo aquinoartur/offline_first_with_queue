@@ -16,7 +16,6 @@ class LoadingHomeState extends HomeState {}
 
 class LoadedHomeState extends HomeState {
   final List<AttendanceEntity> attendances;
-
   LoadedHomeState({required this.attendances});
 }
 

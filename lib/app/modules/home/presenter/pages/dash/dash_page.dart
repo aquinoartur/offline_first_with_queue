@@ -3,13 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/add/add_page.dart';
 import 'package:offline_first/app/modules/home/presenter/components/loading.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/add/blocs/add_bloc/add_bloc.dart';
+import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/connectivity_bloc/connectivity_bloc.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/home_bloc/home_bloc.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/home/home_page.dart';
 
 class DashPage extends StatelessWidget {
   final HomeBloc homeBloc;
   final AddBloc addBloc;
-  const DashPage({Key? key, required this.homeBloc, required this.addBloc}) : super(key: key);
+  final ConnectivityBloc connectivityBloc;
+  const DashPage({
+    Key? key,
+    required this.homeBloc,
+    required this.addBloc,
+    required this.connectivityBloc,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +46,7 @@ class DashPage extends StatelessWidget {
               builder: (ctx) {
                 return HomePage(
                   homeBloc: homeBloc,
+                  connectivityBloc: connectivityBloc,
                 );
               },
             );

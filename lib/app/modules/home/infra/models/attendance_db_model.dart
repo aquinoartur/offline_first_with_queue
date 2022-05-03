@@ -1,4 +1,4 @@
-const String tableAttendances = 'attendance';
+const String kTableName = 'attendance';
 
 class AttendanceDbModel {
   static const String id = '_id';
