@@ -1,13 +1,13 @@
 import '../../../../../../domain/entity/attendance_entity.dart';
 
 abstract class HomeState {
-  const HomeState();
+  List<AttendanceEntity>? attendances;
+  HomeState({this.attendances});
 
   InitialHomeState initialAddState() => InitialHomeState();
   LoadingHomeState loadingHomeState() => LoadingHomeState();
   ErrorHomeState errorHomeState(String? error) => ErrorHomeState(error: error);
-  LoadedHomeState loadedHomeState(List<AttendanceEntity> attendances) =>
-      LoadedHomeState(attendances: attendances);
+  LoadedHomeState loadedHomeState(List<AttendanceEntity> attendances) => LoadedHomeState(attendances: attendances);
 }
 
 class InitialHomeState extends HomeState {}
@@ -15,11 +15,10 @@ class InitialHomeState extends HomeState {}
 class LoadingHomeState extends HomeState {}
 
 class LoadedHomeState extends HomeState {
-  final List<AttendanceEntity> attendances;
-  LoadedHomeState({required this.attendances});
+  LoadedHomeState({required List<AttendanceEntity> attendances}) : super(attendances: attendances);
 }
 
 class ErrorHomeState extends HomeState {
   final String? error;
-  const ErrorHomeState({this.error});
+  ErrorHomeState({this.error});
 }

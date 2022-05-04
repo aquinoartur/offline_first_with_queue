@@ -11,3 +11,10 @@ class AddAttendanceListEvent extends AddEvent {
   final List<AttendanceEntity> attendances;
   AddAttendanceListEvent({required this.attendances});
 }
+
+class UpdateAttendanceEvent extends AddEvent {
+  final List<AttendanceEntity> remoteAttendances;
+  UpdateAttendanceEvent({
+    required this.remoteAttendances,
+  });
+}

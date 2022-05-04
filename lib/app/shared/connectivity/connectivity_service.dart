@@ -1,37 +1,36 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
 
 enum ConnectivityStatus { online, offline }
 
-class ConnectivityService {
-  late ConnectivityStatus status;
+class ConnectivityService extends ChangeNotifier {
+  late ConnectivityStatus value;
 
   Future<void> initStatus() async {
     final result = await Connectivity().checkConnectivity();
-    if (result == ConnectivityResult.mobile ||
-        result == ConnectivityResult.wifi) {
-      status = ConnectivityStatus.online;
+    if (result == ConnectivityResult.wifi) {
+      value = ConnectivityStatus.online;
     } else {
-      status = ConnectivityStatus.offline;
+      value = ConnectivityStatus.offline;
     }
+    notifyListeners();
   }
 
   late final StreamSubscription subscription;
   ConnectivityService() {
-    subscription = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult result) {
-      if (result == ConnectivityResult.mobile ||
-          result == ConnectivityResult.wifi) {
-        status = ConnectivityStatus.online;
+    value = ConnectivityStatus.offline;
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.wifi) {
+        value = ConnectivityStatus.online;
       } else {
-        status = ConnectivityStatus.offline;
+        value = ConnectivityStatus.offline;
       }
-      log('Status da conexão: $status');
+      log('Status da conexão: $value');
+      notifyListeners();
     });
   }
 
-  bool get isOnline => status == ConnectivityStatus.online;
-  void dispose() => subscription.cancel();
+  bool get isOnline => value == ConnectivityStatus.online;
 }

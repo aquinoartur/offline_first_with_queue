@@ -8,16 +8,18 @@ import 'package:offline_first/app/modules/home/presenter/pages/dash/dash_page.da
 import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/connectivity_bloc/connectivity_bloc.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/home_bloc/home_bloc.dart';
 
+import 'domain/usecases/update_attendance_usecase.dart';
 import 'external/datasources/attendances_local_datasource.dart';
 
 class HomeModule extends Module {
   @override
   List<Bind<Object>> get binds => [
         Bind((i) => ConnectivityBloc(connectivityService: i())),
-        Bind((i) => AddBloc(addAttendanceUsecase: i())),
+        Bind((i) => AddBloc(addAttendanceUsecase: i(), updateAttendanceUsecase: i())),
         Bind((i) => HomeBloc(getAttendancesUsecase: i(), addBloc: i())),
         Bind((i) => GetAttendancesUsecaseImpl(i())),
         Bind((i) => AddAttendanceUsecaseImpl(i())),
+        Bind((i) => UpdateAttendanceUsecaseImpl(i())),
         Bind((i) => AttendancesRepositoryImpl(i(), i(), i())),
         Bind((i) => AttendancesRemoteDatasourceImpl(i())),
         Bind((i) => AttendancesLocalDatasourceImpl(i())),

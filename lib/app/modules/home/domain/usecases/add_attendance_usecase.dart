@@ -15,6 +15,8 @@ class AddAttendanceUsecaseImpl implements AddAttendanceUsecase {
 
   @override
   Future<Either<Failure, Unit>> addAttendance(List<AttendanceEntity> attendances) async {
-    return await repository.addAttendance(attendances);
+
+    var list = attendances.where((attendance) => attendance.createdTime.day == DateTime.now().day).toList();
+    return await repository.addAttendance(list);
   }
 }

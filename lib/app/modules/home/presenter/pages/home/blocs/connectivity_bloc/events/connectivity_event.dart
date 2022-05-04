@@ -1,3 +1,4 @@
 abstract class ConnectivityEvent {}
 
-class ShowSyncDialogEvent extends ConnectivityEvent {}
+class ShowSyncRemoteDialogEvent extends ConnectivityEvent {}
+class ShowSyncLocalDialogEvent extends ConnectivityEvent {}

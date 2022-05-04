@@ -51,4 +51,14 @@ class AttendancesRepositoryImpl implements AttendancesRepository {
       return left(DomainError(message: e.message, stackTrace: s));
     }
   }
+
+  @override
+  Future<Either<Failure, List<AttendanceEntity>>> update() async {
+    try {
+      final result = await localDatasource.getAttendances();
+      return right(result);
+    } on FirebaseException catch (e, s) {
+      return left(DomainError(message: e.message, stackTrace: s));
+    }
+  }
 }

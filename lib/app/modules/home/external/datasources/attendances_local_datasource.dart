@@ -12,7 +12,7 @@ class AttendancesLocalDatasourceImpl implements AttendancesLocalDatasource {
   @override
   Future<List<AttendanceEntity>> getAttendances() async {
     try {
-      return [];
+      return await database.readAll();
     } catch (_) {
       rethrow;
     }
@@ -27,6 +27,6 @@ class AttendancesLocalDatasourceImpl implements AttendancesLocalDatasource {
       }
     } catch (_) {
       rethrow;
-    } 
+    }
   }
 }

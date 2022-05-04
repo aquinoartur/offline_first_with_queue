@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:offline_first/app/modules/home/presenter/components/list_tile_item.dart';
+import 'package:offline_first/app/modules/home/presenter/pages/add/blocs/add_bloc/events/add_event.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/connectivity_bloc/connectivity_bloc.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/connectivity_bloc/states/connectivity_state.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/home_bloc/states/home_state.dart';
 import '../../components/custom_dialog.dart';
 import '../../components/loading.dart';
 import '../../components/styles/text_style.dart';
+import 'blocs/connectivity_bloc/events/connectivity_event.dart';
 import 'blocs/home_bloc/events/home_event.dart';
 import 'blocs/home_bloc/home_bloc.dart';
 
@@ -29,6 +32,13 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _homeBloc = widget.homeBloc;
     _connectivityBloc = widget.connectivityBloc;
+
+    if (_connectivityBloc.connectivityService.isOnline) {
+      _connectivityBloc.add(ShowSyncRemoteDialogEvent());
+    } else {
+      _connectivityBloc.add(ShowSyncLocalDialogEvent());
+    }
+
     _homeBloc.add(GetAttendanceListEvent());
   }
 
@@ -47,7 +57,17 @@ class _HomePageState extends State<HomePage> {
                 bloc: _connectivityBloc,
                 listener: (context, state) {
                   if (state is ConnectedState) {
-                    showDialog(context: context, builder: (context) => CustomDialog(onAccept: _onAcceptSync));
+                    showDialog(
+                      context: context,
+                      builder: (context) => CustomDialog(onAccept: _onAcceptSync, isConnected: true),
+                    );
+                  }
+
+                  if (state is DisconnectedState) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => const CustomDialog(isConnected: false),
+                    );
                   }
                 },
                 child: BlocBuilder<HomeBloc, HomeState>(
@@ -78,10 +98,10 @@ class _HomePageState extends State<HomePage> {
                                 child: ListView.separated(
                                   shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: (state as LoadedHomeState).attendances.length,
+                                  itemCount: (state as LoadedHomeState).attendances!.length,
                                   separatorBuilder: (_, __) => const SizedBox(width: 20),
                                   itemBuilder: (context, index) {
-                                    var attendance = (state).attendances[index];
+                                    var attendance = (state).attendances![index];
                                     return SizedBox(
                                       height: 56,
                                       child: Column(
@@ -112,11 +132,11 @@ class _HomePageState extends State<HomePage> {
                               ListView.separated(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: (state).attendances.length,
+                                itemCount: (state).attendances!.length,
                                 padding: EdgeInsets.zero,
                                 separatorBuilder: (_, __) => const SizedBox(height: 4),
                                 itemBuilder: (context, index) {
-                                  var attendance = (state).attendances[index];
+                                  var attendance = (state).attendances![index];
                                   return ListTileItem(attendance: attendance);
                                 },
                               ),
@@ -135,5 +155,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _onAcceptSync() {}
+  void _onAcceptSync() {
+    if (_homeBloc.state is LoadedHomeState) {
+      _homeBloc.addBloc.add(
+        UpdateAttendanceEvent(
+          remoteAttendances: (_homeBloc.state as LoadedHomeState).attendances!,
+        ),
+      );
+    }
+    Modular.to.pop();
+  }
 }

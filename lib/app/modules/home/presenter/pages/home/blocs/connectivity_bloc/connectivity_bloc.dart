@@ -9,17 +9,35 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   ConnectivityBloc({
     required this.connectivityService,
   }) : super(InitialConnectivityState()) {
-    on<ShowSyncDialogEvent>(_syncData);
+    on<ShowSyncRemoteDialogEvent>(_syncRemoteData);
+    on<ShowSyncLocalDialogEvent>(_syncLocalData);
 
-    if (connectivityService.isOnline) {
-      add(ShowSyncDialogEvent());
-    }
+    connectivityService.addListener(() {
+      if (connectivityService.isOnline) {
+        add(ShowSyncRemoteDialogEvent());
+      } else {
+        add(ShowSyncLocalDialogEvent());
+      }
+    });
   }
 
-  Future<void> _syncData(
-    ShowSyncDialogEvent event,
+  Future<void> _syncRemoteData(
+    ShowSyncRemoteDialogEvent event,
     Emitter<ConnectivityState> emit,
   ) async {
     emit(state.connectedState());
+  }
+
+  Future<void> _syncLocalData(
+    ShowSyncLocalDialogEvent event,
+    Emitter<ConnectivityState> emit,
+  ) async {
+    emit(state.disconnectedState());
+  }
+
+  @override
+  Future<void> close() {
+    connectivityService.dispose();
+    return super.close();
   }
 }
