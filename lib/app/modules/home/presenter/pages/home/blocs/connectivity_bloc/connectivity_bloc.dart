@@ -28,7 +28,7 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
     emit(state.connectedState());
   }
 
-  Future<void> _syncLocalData(
+  Future<void> _syncLocalData (
     ShowSyncLocalDialogEvent event,
     Emitter<ConnectivityState> emit,
   ) async {

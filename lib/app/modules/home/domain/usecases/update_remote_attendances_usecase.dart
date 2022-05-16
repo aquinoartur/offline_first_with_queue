@@ -4,17 +4,17 @@ import '../../../../shared/either/either.dart';
 import '../failures/failures.dart';
 import '../repository/attendances_repository.dart';
 
-abstract class UpdateAttendanceUsecase {
+abstract class UpdateRemoteAttendancesUsecase {
   Future<Either<Failure, List<AttendanceEntity>>> update();
 }
 
-class UpdateAttendanceUsecaseImpl implements UpdateAttendanceUsecase {
+class UpdateRemoteAttendancesUsecaseImpl implements UpdateRemoteAttendancesUsecase {
   final AttendancesRepository repository;
 
-  UpdateAttendanceUsecaseImpl(this.repository);
+  UpdateRemoteAttendancesUsecaseImpl(this.repository);
 
   @override
   Future<Either<Failure, List<AttendanceEntity>>> update() async {
-    return await repository.update();
+    return await repository.remoteUpdate();
   }
 }

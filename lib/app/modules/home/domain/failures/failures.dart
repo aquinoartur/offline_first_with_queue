@@ -27,3 +27,12 @@ class DatasourceError extends Failure {
           stackTrace: stackTrace,
         );
 }
+class DatabasesourceError extends Failure {
+  DatabasesourceError({
+    String? message,
+    StackTrace? stackTrace,
+  }) : super(
+          message: message,
+          stackTrace: stackTrace,
+        );
+}

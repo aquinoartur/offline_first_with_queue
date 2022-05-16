@@ -7,7 +7,7 @@ class AttendanceEntity {
   final DateTime createdTime;
 
   const AttendanceEntity({
-    this.id,
+     this.id,
     required this.isUrgency,
     required this.title,
     required this.description,

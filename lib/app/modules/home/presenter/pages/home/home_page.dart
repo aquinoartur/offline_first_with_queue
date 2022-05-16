@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:offline_first/app/modules/home/presenter/components/list_tile_item.dart';
-import 'package:offline_first/app/modules/home/presenter/pages/add/blocs/add_bloc/events/add_event.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/connectivity_bloc/connectivity_bloc.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/connectivity_bloc/states/connectivity_state.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/home_bloc/states/home_state.dart';
@@ -94,7 +93,6 @@ class _HomePageState extends State<HomePage> {
                               const SizedBox(height: 24),
                               SizedBox(
                                 height: 80,
-                                width: double.infinity,
                                 child: ListView.separated(
                                   shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
@@ -102,23 +100,30 @@ class _HomePageState extends State<HomePage> {
                                   separatorBuilder: (_, __) => const SizedBox(width: 20),
                                   itemBuilder: (context, index) {
                                     var attendance = (state).attendances![index];
-                                    return SizedBox(
-                                      height: 56,
-                                      child: Column(
-                                        children: [
-                                          CircleAvatar(
-                                            child: Icon(
-                                              attendance.isUrgency ? Icons.local_hospital : Icons.healing_outlined,
-                                              color: Colors.white,
+                                    return Column(
+                                      children: [
+                                        Stack(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(right: 16),
+                                              child: CircleAvatar(
+                                                child: Icon(
+                                                  attendance.isUrgency ? Icons.local_hospital : Icons.healing_outlined,
+                                                  color: Colors.white,
+                                                ),
+                                                backgroundColor: attendance.isUrgency ? Colors.red : Colors.green,
+                                              ),
                                             ),
-                                            backgroundColor: attendance.isUrgency
-                                                ? Colors.red.withOpacity(0.7)
-                                                : Colors.green.withOpacity(0.7),
-                                          ),
-                                          const SizedBox(height: 12),
-                                          Text('CID: ${attendance.cid}', style: defaultStyle),
-                                        ],
-                                      ),
+                                            const Positioned(
+                                              top: 0,
+                                              right: 0,
+                                              child: Icon(Icons.sync, color: Colors.blue),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 12),
+                                        Text('CID: ${attendance.cid}', style: defaultStyle),
+                                      ],
                                     );
                                   },
                                 ),
@@ -156,13 +161,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onAcceptSync() {
-    if (_homeBloc.state is LoadedHomeState) {
-      _homeBloc.addBloc.add(
-        UpdateAttendanceEvent(
-          remoteAttendances: (_homeBloc.state as LoadedHomeState).attendances!,
-        ),
-      );
-    }
+    _homeBloc.add(GetAttendanceListEvent(syncData: true));
+
     Modular.to.pop();
   }
 }

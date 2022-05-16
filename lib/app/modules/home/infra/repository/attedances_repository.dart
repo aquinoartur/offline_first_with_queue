@@ -26,13 +26,14 @@ class AttendancesRepositoryImpl implements AttendancesRepository {
 
       if (connectivityService.isOnline) {
         result = await remoteDatasource.getAttendances();
+        await localUpdate(result);
       } else {
         result = await localDatasource.getAttendances();
       }
 
       return right(result);
     } on FirebaseException catch (e, s) {
-      return left(DomainError(message: e.message, stackTrace: s));
+      return left(DatasourceError(message: e.message, stackTrace: s));
     }
   }
 
@@ -40,25 +41,38 @@ class AttendancesRepositoryImpl implements AttendancesRepository {
   Future<Either<Failure, Unit>> addAttendance(List<AttendanceEntity> attendances) async {
     try {
       if (connectivityService.isOnline) {
-        await remoteDatasource.addAttendances(attendances);
-        //await localDatasource.addAttendances(attendances);
+        final result = await localDatasource.addAttendances(attendances);
+        await remoteDatasource.addAttendances(result);
       } else {
         await localDatasource.addAttendances(attendances);
       }
 
       return right(unit);
     } on FirebaseException catch (e, s) {
-      return left(DomainError(message: e.message, stackTrace: s));
+      return left(DatasourceError(message: e.message, stackTrace: s));
     }
   }
 
   @override
-  Future<Either<Failure, List<AttendanceEntity>>> update() async {
+  Future<Either<Failure, List<AttendanceEntity>>> remoteUpdate() async {
     try {
-      final result = await localDatasource.getAttendances();
+      List<AttendanceEntity> result = [];
+
+      result = await localDatasource.getAttendances();
+
       return right(result);
     } on FirebaseException catch (e, s) {
-      return left(DomainError(message: e.message, stackTrace: s));
+      return left(DatasourceError(message: e.message, stackTrace: s));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> localUpdate(List<AttendanceEntity> attendances) async {
+    try {
+      await localDatasource.update(attendances);
+      return right(unit);
+    } on Failure catch (_, s) {
+      return left(DatabasesourceError(message: 'Database error', stackTrace: s));
     }
   }
 }

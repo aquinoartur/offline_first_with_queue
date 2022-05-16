@@ -5,7 +5,6 @@ import '../../modules/home/domain/entity/attendance_entity.dart';
 import '../../modules/home/external/mappers/attendance_mapper.dart';
 import '../../modules/home/infra/models/attendance_db_model.dart';
 
-
 class AttendanceDatabase {
   static final AttendanceDatabase instance = AttendanceDatabase._init();
 
@@ -52,7 +51,7 @@ CREATE TABLE $kTableName (
       kTableName,
       AttendanceMapper().toMap(attendance),
     );
-    
+
     return AttendanceEntity(
       id: id,
       cid: attendance.cid,
@@ -84,22 +83,22 @@ CREATE TABLE $kTableName (
     final db = await instance.database;
 
     const orderBy = '${AttendanceDbModel.time} ASC';
-    // final result =
-    //     await db.rawQuery('SELECT * FROM $tableNotes ORDER BY $orderBy');
 
     final result = await db.query(kTableName, orderBy: orderBy);
 
     return result.map((json) => AttendanceMapper().fromMap(json)).toList();
   }
 
-  Future<int> update(AttendanceEntity note) async {
+  Future<int> update(AttendanceEntity attendance) async {
     final db = await instance.database;
+
+    var attendanceMap = AttendanceMapper().toMap(attendance);
 
     return db.update(
       kTableName,
-      AttendanceMapper().toMap(note),
+      attendanceMap,
       where: '${AttendanceDbModel.id} = ?',
-      whereArgs: [note.id],
+      whereArgs: [attendance.id],
     );
   }
 

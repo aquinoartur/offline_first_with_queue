@@ -3,31 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offline_first/app/modules/home/domain/entity/attendance_entity.dart';
 import 'package:offline_first/app/modules/home/presenter/components/loading.dart';
-import 'package:offline_first/app/modules/home/presenter/pages/add/blocs/add_bloc/states/add_state.dart';
 import '../../components/styles/text_style.dart';
-import 'blocs/add_bloc/add_bloc.dart';
-import 'blocs/add_bloc/events/add_event.dart';
+import 'blocs/register_bloc/register_bloc.dart';
+import 'blocs/register_bloc/events/register_event.dart';
+import 'blocs/register_bloc/states/register_state.dart';
 
-class AddPage extends StatefulWidget {
-  final AddBloc addBloc;
-  const AddPage({Key? key, required this.addBloc}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  final RegisterBloc registerBloc;
+  const RegisterPage({Key? key, required this.registerBloc}) : super(key: key);
 
   @override
-  State<AddPage> createState() => _AddPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _AddPageState extends State<AddPage> {
+class _RegisterPageState extends State<RegisterPage> {
   late final GlobalKey<FormState> _formKey;
   late final TextEditingController _titleController;
   late final TextEditingController _descriptionController;
   late final TextEditingController _cidController;
   late final ValueNotifier<bool> _isUrgency;
-  late final AddBloc _bloc;
+  late final RegisterBloc _bloc;
 
   @override
   void initState() {
     super.initState();
-    _bloc = widget.addBloc;
+    _bloc = widget.registerBloc;
     _isUrgency = ValueNotifier(false);
     _formKey = GlobalKey<FormState>();
     _titleController = TextEditingController();
@@ -51,14 +51,14 @@ class _AddPageState extends State<AddPage> {
             SliverSafeArea(
               top: false,
               sliver: SliverToBoxAdapter(
-                child: BlocBuilder<AddBloc, AddState>(
+                child: BlocBuilder<RegisterBloc, RegisterState>(
                   bloc: _bloc,
                   builder: (context, state) {
-                    if (state is LoadingAddState) {
+                    if (state is LoadingRegisterState) {
                       return const Loading();
                     }
 
-                    if (state is ErrorAddState) {
+                    if (state is ErrorRegisterState) {
                       return Center(
                         child: Text('Error: ${state.error}'),
                       );
