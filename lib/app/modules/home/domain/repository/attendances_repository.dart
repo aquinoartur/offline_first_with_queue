@@ -4,7 +4,8 @@ import '../failures/failures.dart';
 
 abstract class AttendancesRepository {
   Future<Either<Failure, List<AttendanceEntity>>> getAttendances();
-  Future<Either<Failure, Unit>> addAttendance(List<AttendanceEntity> attendances);
-  Future<Either<Failure, List<AttendanceEntity>>> remoteUpdate();
+  Future<Either<Failure, Unit>> addAttendance(
+      {required List<AttendanceEntity> attendances, bool isRemoteUpdate = false});
+  Future<Either<Failure, List<AttendanceEntity>>> getAttendancesForRemoteUpdate();
   Future<Either<Failure, Unit>> localUpdate(List<AttendanceEntity> attendances);
 }

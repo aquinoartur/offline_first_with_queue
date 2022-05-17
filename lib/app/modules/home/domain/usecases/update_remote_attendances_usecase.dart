@@ -5,7 +5,7 @@ import '../failures/failures.dart';
 import '../repository/attendances_repository.dart';
 
 abstract class UpdateRemoteAttendancesUsecase {
-  Future<Either<Failure, List<AttendanceEntity>>> update();
+  Future<Either<Failure, List<AttendanceEntity>>> getAttendancesForRemoteUpdate();
 }
 
 class UpdateRemoteAttendancesUsecaseImpl implements UpdateRemoteAttendancesUsecase {
@@ -14,7 +14,7 @@ class UpdateRemoteAttendancesUsecaseImpl implements UpdateRemoteAttendancesUseca
   UpdateRemoteAttendancesUsecaseImpl(this.repository);
 
   @override
-  Future<Either<Failure, List<AttendanceEntity>>> update() async {
-    return await repository.remoteUpdate();
+  Future<Either<Failure, List<AttendanceEntity>>> getAttendancesForRemoteUpdate() async {
+    return await repository.getAttendancesForRemoteUpdate();
   }
 }

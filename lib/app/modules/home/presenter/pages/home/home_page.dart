@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:offline_first/app/modules/home/presenter/components/list_tile_item.dart';
-import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/connectivity_bloc/connectivity_bloc.dart';
-import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/connectivity_bloc/states/connectivity_state.dart';
-import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/home_bloc/states/home_state.dart';
+import '../../components/list_tile_item.dart';
+import 'blocs/connectivity_bloc/connectivity_bloc.dart';
+import 'blocs/connectivity_bloc/states/connectivity_state.dart';
+import 'blocs/home_bloc/states/home_state.dart';
 import '../../components/custom_dialog.dart';
 import '../../components/loading.dart';
 import '../../components/styles/text_style.dart';
@@ -85,21 +85,19 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         children: [
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text('Hoje', style: defaultStyle.copyWith(fontSize: 20)),
-                              ),
+                              Text('Hoje', style: defaultStyle.copyWith(fontSize: 20)),
                               const SizedBox(height: 24),
                               SizedBox(
                                 height: 80,
                                 child: ListView.separated(
                                   shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: (state as LoadedHomeState).attendances!.length,
+                                  itemCount: state.todayAttendances!.length,
                                   separatorBuilder: (_, __) => const SizedBox(width: 20),
                                   itemBuilder: (context, index) {
-                                    var attendance = (state).attendances![index];
+                                    var attendance = state.todayAttendances![index];
                                     return Column(
                                       children: [
                                         Stack(
@@ -117,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                                             const Positioned(
                                               top: 0,
                                               right: 0,
-                                              child: Icon(Icons.sync, color: Colors.blue),
+                                              child: Icon(Icons.sync, color: Colors.blueAccent),
                                             ),
                                           ],
                                         ),

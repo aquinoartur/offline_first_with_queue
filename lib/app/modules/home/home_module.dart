@@ -7,7 +7,6 @@ import 'package:offline_first/app/modules/home/presenter/pages/dash/dash_page.da
 import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/connectivity_bloc/connectivity_bloc.dart';
 import 'package:offline_first/app/modules/home/presenter/pages/home/blocs/home_bloc/home_bloc.dart';
 
-import 'domain/usecases/update_local_attendances_usecase.dart';
 import 'domain/usecases/update_remote_attendances_usecase.dart';
 import 'external/datasources/attendances_local_datasource.dart';
 import 'presenter/pages/register/blocs/register_bloc/register_bloc.dart';
@@ -20,14 +19,12 @@ class HomeModule extends Module {
           (i) => RegisterBloc(
             addAttendanceUsecase: i(),
             updateRemoteAttendanceUsecase: i(),
-            updateLocalAttendanceUsecase: i(),
           ),
         ),
         Bind((i) => HomeBloc(getAttendancesUsecase: i(), registerBloc: i())),
         Bind((i) => GetAttendancesUsecaseImpl(i())),
         Bind((i) => AddAttendanceUsecaseImpl(i())),
         Bind((i) => UpdateRemoteAttendancesUsecaseImpl(i())),
-        Bind((i) => UpdateLocalAttendancesUsecaseImpl(i())),
         Bind((i) => AttendancesRepositoryImpl(i(), i(), i())),
         Bind((i) => AttendancesRemoteDatasourceImpl(i())),
         Bind((i) => AttendancesLocalDatasourceImpl(i())),

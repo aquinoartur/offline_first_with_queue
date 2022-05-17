@@ -34,10 +34,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     result.fold(
       (error) => emit(state.errorHomeState(error.message)),
       (attendances) {
-        emit(state.loadedHomeState(attendances));
+        var dateNow = DateTime.now();
+        var todayAttendances = attendances.where((attendance) {
+          return attendance.createdTime.day == dateNow.day &&
+              attendance.createdTime.month == dateNow.month &&
+              attendance.createdTime.year == dateNow.year;
+        }).toList();
+
+        emit(state.loadedHomeState(attendances: attendances, todayAttendances: todayAttendances));
         if (event.syncData) {
           registerBloc.add(
-            UpdateRemoteAttendancesEvent(
+            RegisterUpdateRemoteAttendancesEvent(
               remoteAttendances: attendances,
             ),
           );

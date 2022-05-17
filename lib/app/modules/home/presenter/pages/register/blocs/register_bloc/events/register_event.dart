@@ -12,9 +12,9 @@ class AddAttendanceListEvent extends RegisterEvent {
   AddAttendanceListEvent({required this.attendances});
 }
 
-class UpdateRemoteAttendancesEvent extends RegisterEvent {
+class RegisterUpdateRemoteAttendancesEvent extends RegisterEvent {
   final List<AttendanceEntity> remoteAttendances;
-  UpdateRemoteAttendancesEvent({
+  RegisterUpdateRemoteAttendancesEvent({
     required this.remoteAttendances,
   });
 }

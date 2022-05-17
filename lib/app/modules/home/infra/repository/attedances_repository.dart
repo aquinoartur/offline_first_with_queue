@@ -38,11 +38,19 @@ class AttendancesRepositoryImpl implements AttendancesRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> addAttendance(List<AttendanceEntity> attendances) async {
+  Future<Either<Failure, Unit>> addAttendance({
+    required List<AttendanceEntity> attendances,
+    bool isRemoteUpdate = false,
+  }) async {
     try {
       if (connectivityService.isOnline) {
-        final result = await localDatasource.addAttendances(attendances);
-        await remoteDatasource.addAttendances(result);
+        if (isRemoteUpdate) {
+          await remoteDatasource.addAttendances(attendances);
+        } else {
+          final attendancesUpdated = await localDatasource.addAttendances(attendances);
+
+          await remoteDatasource.addAttendances(attendancesUpdated);
+        }
       } else {
         await localDatasource.addAttendances(attendances);
       }
@@ -54,7 +62,7 @@ class AttendancesRepositoryImpl implements AttendancesRepository {
   }
 
   @override
-  Future<Either<Failure, List<AttendanceEntity>>> remoteUpdate() async {
+  Future<Either<Failure, List<AttendanceEntity>>> getAttendancesForRemoteUpdate() async {
     try {
       List<AttendanceEntity> result = [];
 

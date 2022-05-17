@@ -5,7 +5,8 @@ import '../failures/failures.dart';
 import '../repository/attendances_repository.dart';
 
 abstract class AddAttendanceUsecase {
-  Future<Either<Failure, Unit>> addAttendance(List<AttendanceEntity> attendances);
+  Future<Either<Failure, Unit>> addAttendance(
+      {required List<AttendanceEntity> attendances, bool isRemoteUpdate = false});
 }
 
 class AddAttendanceUsecaseImpl implements AddAttendanceUsecase {
@@ -14,9 +15,10 @@ class AddAttendanceUsecaseImpl implements AddAttendanceUsecase {
   AddAttendanceUsecaseImpl(this.repository);
 
   @override
-  Future<Either<Failure, Unit>> addAttendance(List<AttendanceEntity> attendances) async {
-
-    var list = attendances.where((attendance) => attendance.createdTime.day == DateTime.now().day).toList();
-    return await repository.addAttendance(list);
+  Future<Either<Failure, Unit>> addAttendance({
+    required List<AttendanceEntity> attendances,
+    bool isRemoteUpdate = false,
+  }) async {
+    return await repository.addAttendance(attendances: attendances, isRemoteUpdate: isRemoteUpdate);
   }
 }
